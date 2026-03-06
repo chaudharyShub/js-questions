@@ -33,6 +33,22 @@
 
 24 - FLAT AN OBJECT WITHOUT ARRAY
 25 - FLAT ON OBJECT HAVING ARRAY
+26 - FIBONACCI SERIES
+27 - CHECK IF AN ARRAY IS SORTED OR NOT
+28 - BINARY SEARCH IN AN ARRAY
+29 - ARRANGE ALL ANAGRAMS TOGETHER IN AN ARRAY
+30 - FIND THE FIRST NON-REPEATING CHARACTER IN A STRING  ---->>>>>> first: "abcabcbb" -> output: "3" 
+                                                         --->>>>>> second: "abcabcbb" -> output: "abc"
+
+31 - INFINITE SCROLL USING REACT.JS / JAVASCRIPT
+32 - INFINITE SCROLL USING INTERSECTION OBSERVER API
+
+** - IMPLEMENT A SIMPLE DEEP EQUAL FUNCTION
+** - FIND FIRST NON-REPEATING CHARACTER IN A STRING
+** - FIND FIRST REPEATING CHARACTER IN A STRING
+** - CHECK IF TWO STRINGS ARE ROTATIONS OF EACH OTHER
+** - IMPLEMENT A SIMPLE EVENT EMITTER
+** - IMPLEMENT A PROMISE POLYFILL
 
 ******************************************************************
 `
@@ -467,7 +483,7 @@ const flatObject = (object, key, result = {}) => {
     return result;
 };
 
-// console.log(flatObject(user));
+// console.log('24 -> ',flatObject(user));
 
 // 25 - FLAT ON OBJECT HAVING ARRAY
 const flattenObject = (obj, parentKey = "", result = {}) => {
@@ -492,4 +508,239 @@ const data = {
     },
 };
 
-console.log(flattenObject(data));
+// console.log('25 -> ', flattenObject(data));
+
+// 26 - FIBONACCI SERIES
+const fibonacciRecursion = (n) => {
+    if (n <= 1) return n;
+
+    return fibonacciRecursion(n - 1) + fibonacciRecursion(n - 2);
+}
+const fibonacciLoop = (n) => {
+    if (n <= 1) return n;
+
+    let prev = 0;
+    let curr = 1;
+
+    for (let i = 2; i <= n; i++) {
+        let next = prev + curr;
+        prev = curr;
+        curr = next;
+    }
+
+    return curr;
+}
+// console.log('26 -> ', fibonacciRecursion(10));
+// console.log('26 -> ', fibonacciLoop(10));
+
+// 27 - CHECK IF AN ARRAY IS SORTED OR NOT
+const checkSorted = (arr) => {
+    let val = false;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > arr[i + 1]) {
+            val = false;
+            break;
+        } else {
+            val = true;
+        }
+    }
+
+    return val;
+};
+
+const a = [1, 2, 3, 4, 5, 6, 7];
+
+// console.log('27 -> ', checkSorted(a));
+
+// 28 - BINARY SEARCH IN AN ARRAY
+const array = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+const search = (arr, val) => {
+    let start = 0;
+    let end = arr.length - 1;
+
+    while (start <= end) {
+        let mid = Math.floor((start + end) / 2);
+
+        if (arr[mid] === val) {
+            return mid;
+        } else if (val < arr[mid]) {
+            end = mid - 1;
+        } else {
+            start = mid + 1;
+        }
+    }
+
+    return -1;
+};
+
+// console.log('28 -> ', search(array, 90));
+
+// 29 - ARRANGE ALL ANAGRAMS TOGETHER IN AN ARRAY
+const strs = ["eat", "tea", "tan", "ate", "nat", "bat"];
+// [(["bat"], ["nat", "tan"], ["ate", "eat", "tea"])];  --->>> OUTPUT
+
+const get = (arr) => {
+    const obj = {};
+
+    for (const val of arr) {
+        const key = val.split("").sort().join("");
+
+        if (!obj[key]) {
+            obj[key] = [];
+        }
+
+        obj[key].push(val);
+    }
+
+    return Object.values(obj);
+};
+
+// console.log('29 -> ', get(strs));
+
+// 30 - FIND THE LONGEST SUBSTRING WITHOUT REPEATING CHARACTERS
+// This will return the length of longest substring without repeating characters.
+// For example, for the input "abcabcbb", the longest substring without repeating characters is "abc", which has a length of 3. So the output will be 3.
+const longestSubstringWithoutRepeating = (s) => {
+    let maxLength = 0;
+    let start = 0;
+    const charIndexMap = new Map();
+
+    for (let end = 0; end < s.length; end++) {
+        const char = s[end];
+
+        if (charIndexMap.has(char) && charIndexMap.get(char) >= start) {
+            start = charIndexMap.get(char) + 1;
+        }
+
+        charIndexMap.set(char, end);
+        maxLength = Math.max(maxLength, end - start + 1);
+    }
+
+    return maxLength;
+};
+// This will return the longest substring without repeating characters. 
+// The output will be "abc".
+const longestSubstring = (str) => {
+    let set = new Set();
+    let left = 0;
+    let maxLength = 0;
+    let longest = "";
+
+    for (let right = 0; right < str.length; right++) {
+
+        while (set.has(str[right])) {
+            set.delete(str[left]);
+            left++;
+        }
+
+        set.add(str[right]);
+
+        if (right - left + 1 > maxLength) {
+            maxLength = right - left + 1;
+            longest = str.slice(left, right + 1);
+        }
+    }
+
+    return longest;
+};
+// console.log('30 -> ', longestSubstringWithoutRepeating("abcabcbb"));
+// console.log('30 -> ', longestSubstring("abcabcbb"));
+
+// 31 - INFINITE SCROLL IN REACT.JS / JAVASCRIPT
+import { useState } from "react";
+
+const THRESHOLD = 20;
+
+const CustomInfiniteLoader = () => {
+    const [data, setData] = useState([...new Array(40)]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const loadMore = () => {
+        if (isLoading) return;
+        setIsLoading(true);
+
+        setTimeout(() => {
+            setData((prev) => [...prev, ...new Array(10)]);
+            setIsLoading(false);
+        }, 1000);
+    };
+
+    const handleScroll = (e) => {
+        const scrollHeight = e.target.scrollHeight;
+        const clientHeight = e.target.clientHeight;
+        const scrollTop = e.target.scrollTop;
+        const remain = scrollHeight - clientHeight - scrollTop;
+
+        if (remain < THRESHOLD) {
+            loadMore();
+        }
+    };
+
+    return (
+        <div onScroll={handleScroll}>
+            {data.map((_item, index) => (
+                <p key={index}>
+                    {index + 1}
+                </p>
+            ))}
+            {isLoading ? <p>Loading...</p> : null}
+        </div>
+    );
+};
+
+// 32 - INFINITE SCROLL USING INTERSECTION OBSERVER API
+// Intersection Observer API is a **browser API** that allows you to 
+// **asynchronously** observe changes in the intersection of a target element with an ancestor 
+// element or with a top-level document's viewport. It can be used to implement infinite scrolling by 
+// observing when the last item in a list becomes visible in the viewport, and then loading more items when that happens.
+import { useEffect, useRef } from "react";
+
+const IntersectionObserverInfiniteLoader = () => {
+    const [data, setData] = useState([...new Array(40)]);
+    const [loading, setLoading] = useState(false);
+    const refList = useRef([]);
+
+    const loadMore = () => {
+        if (loading) return;
+
+        setLoading(true);
+
+        setTimeout(() => {
+            setLoading(false);
+            setData((prev) => [...prev, ...new Array(10)]);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                observer.unobserve(entries[0].target);
+                loadMore();
+            }
+        });
+
+        const lastElement = refList.current[refList.current.length - 1];
+        observer.observe(lastElement);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [data.length]);
+
+    return (
+        <div className="scroll-container">
+            {data.map((item, index) => (
+                <p
+                    ref={(elem) => (refList.current[index] = elem)}
+                    key={index}
+                    className="data"
+                >
+                    {index + 1}
+                </p>
+            ))}
+
+            {loading ? <p>Loading...</p> : null}
+        </div>
+    );
+};
