@@ -1,0 +1,57 @@
+1. requestIdleCallback :
+
+https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+
+- This is a browser API that lets us run low-priority work when the browser is idle 
+    (i.e., when it has free time and is not busy rendering, handling input, or running high-priority tasks).
+- It is mainly used for background tasks that are not urgent, so they don’t block UI rendering.
+- This allows:
+    interruptible rendering
+    non-blocking UI
+- Example :
+requestIdleCallback((deadline) => {
+  while (deadline.timeRemaining() > 0) {
+    console.log("Doing background work");
+  }
+});
+
+- **deadline** object provides : 
+
+| Property                 | Meaning                                   |
+| -------------------------| ----------------------------------------- |
+| deadline.timeRemaining() | milliseconds remaining in the idle period |
+| deadline.didTimeout      | true if timeout forced execution          |
+
+
+- Example code snippet to understand the wokring =>
+function heavyWorkBlocking() {
+  let total = 0;
+
+  for (let i = 0; i < 200000000; i++) {
+    total += i;
+  }
+
+  log.innerHTML += "<div>Blocking work finished</div>";
+}
+
+let work = 0;
+const TOTAL_WORK = 20000000;
+const CHUNK_SIZE = 50000;
+
+function heavyWorkIdle(deadline) {
+
+  while (deadline.timeRemaining() > 0 && work < TOTAL_WORK) {
+
+    // simulate heavy work
+    for (let i = 0; i < CHUNK_SIZE; i++) {
+      work++;
+    }
+
+  }
+
+  if (work < TOTAL_WORK) {
+    requestIdleCallback(heavyWorkIdle);
+  } else {
+    log.innerHTML += "<div>Idle heavy work finished</div>";
+  }
+}

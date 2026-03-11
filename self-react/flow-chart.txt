@@ -1,0 +1,70 @@
+          ┌─────────────────────┐
+          │        JSX          │
+          │  <App />            │
+          │  <div>Hello</div>   │
+          └─────────┬───────────┘
+                    │ compiled by Babel
+                    ▼
+        ┌───────────────────────────┐
+        │      createElement()      │
+        │ React.createElement()     │
+        │ creates element objects   │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │       Element Tree        │
+        │  JS objects describing UI │
+        │                           │
+        │  {                        │
+        │   type: "div"             │
+        │   props:{ children:[] }   │
+        │  }                        │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │        Fiber Tree         │
+        │ Linked list structure     │
+        │                           │
+        │ parent / child / sibling  │
+        │ effectTag                 │
+        │ dom reference             │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │        Render Phase       │
+        │                           │
+        │ Build Work-In-Progress    │
+        │ Fiber Tree                │
+        │                           │
+        │ Compare with old tree     │
+        │ (Reconciliation)          │
+        │                           │
+        │ Scheduled via             │
+        │ requestIdleCallback       │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │         Effect List       │
+        │                           │
+        │ Changes collected:        │
+        │                           │
+        │  • Placement (add node)   │
+        │  • Update (change props)  │
+        │  • Deletion (remove)      │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │        Commit Phase       │
+        │                           │
+        │ Apply DOM changes         │
+        │                           │
+        │  appendChild()            │
+        │  removeChild()            │
+        │  update attributes        │
+        └─────────┬─────────────────┘
+                  ▼
+        ┌───────────────────────────┐
+        │        Browser Paint      │
+        │                           │
+        │ UI appears on screen      │
+        └───────────────────────────┘
