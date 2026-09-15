@@ -7,5 +7,4 @@
 6. AWS one shot (M Prashant) : https://youtu.be/N4sJj-SxX00
 
 7. Next.js (Codevolution) : https://youtu.be/b4ba60j_4o8
-8. Github Actions (TechTrapture) : https://youtu.be/mmwn24JxvnU
-9. Frontend Interview Kit (Github Repo) : https://github.com/ghoshsuman845/frontend-interview-preparation-kit	
+8. Frontend Interview Kit (Github Repo) : https://github.com/ghoshsuman845/frontend-interview-preparation-kit	
