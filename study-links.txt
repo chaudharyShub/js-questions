@@ -7,4 +7,5 @@
 6. AWS one shot (M Prashant) : https://youtu.be/N4sJj-SxX00
 
 7. Next.js (Codevolution) : https://youtu.be/b4ba60j_4o8
-8. Frontend Interview Kit (Github Repo) : https://github.com/ghoshsuman845/frontend-interview-preparation-kit	
+8. System Design (DesignKrle) : https://www.youtube.com/watch?v=5XmZK5fls5w&list=LL&index=16&t=1s
+9. Frontend Interview Kit (Github Repo) : https://github.com/ghoshsuman845/frontend-interview-preparation-kit	
